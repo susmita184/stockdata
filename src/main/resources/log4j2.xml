@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="WARN" name="stockDataConfig">
+    <Properties>
+        <Property name="logdirectory">D:/logs/</Property>
+        <Property name="filename">${logdirectory}stockData_$${date:yyyMMdd}.log</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{2} - %msg%n"/>
+            <MarkerFilter marker="stockData" onMatch="ACCEPT" onMismatch="DENY"></MarkerFilter>
+        </Console>
+        <Console name="FlowConsole" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c{2} %M ln:%L - %msg%xEx%n">
+            </PatternLayout>
+        </Console>
+        <File name="stockDataInfoLog" fileName="${filename}" append="true"
+              immediateFlush="true">
+            <PatternLayout
+                    pattern="%d{yyy-MM-dd HH:mm:ss.SSS} %p %C{1.}  [%t] %-5level %logger{36} - %msg%n"></PatternLayout>
+        </File>
+        <File name="stockDataErrorLog" fileName="${logdirectory}stockData_error.log"
+              append="true" immediateFlush="true">
+            <PatternLayout
+                    pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"></PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="ALL">
+            <AppenderRef level="DEBUG" ref="stockDataDebugLog"/>
+            <AppenderRef level="TRACE" ref="FlowConsole"/>
+            <AppenderRef level="ERROR" ref="stockDataErrorLog"/>
+            <AppenderRef level="FATAL" ref="stockDataErrorLog"/>
+            <AppenderRef level="INFO" ref="stockDataInfoLog"/>
+        </Root>
+        <Logger name="ca.royal.stockdata" level="INFO"></Logger>
+        <Logger name="ca.royal.stockdata.model" level="INFO"></Logger>
+        <Logger name="ca.royal.stockdata.controller" level="INFO"></Logger>
+        <Logger name="ca.royal.stockdata.service" level="INFO"></Logger>
+    </Loggers>
+</Configuration>
